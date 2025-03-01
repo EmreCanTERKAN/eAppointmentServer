@@ -1,11 +1,12 @@
 ﻿using eAppointment.Domain.Entities;
+using GenericRepository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 namespace eAppointment.Infrastructure.Context;
-internal sealed class ApplicationDbContext : IdentityDbContext<AppUser, AppRole, Guid>
+internal sealed class ApplicationDbContext : IdentityDbContext<AppUser, AppRole, Guid> , IUnitOfWork
 {
     public ApplicationDbContext(DbContextOptions options) : base(options)
     {

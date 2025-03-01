@@ -1,8 +1,10 @@
 ﻿using eAppointment.Domain.Entities;
 using eAppointment.Infrastructure.Context;
+using GenericRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Scrutor;
 
 namespace eAppointment.Infrastructure;
 public static class InfrastructureRegistrar
@@ -21,6 +23,19 @@ public static class InfrastructureRegistrar
             action.Password.RequireNonAlphanumeric = false;
             action.Password.RequireDigit = false;
         }).AddEntityFrameworkStores<ApplicationDbContext>();
+
+        services.AddScoped<IUnitOfWork>(srv => srv.GetRequiredService<ApplicationDbContext>());
+        services.Scan(action =>
+        {
+            action
+            .FromAssemblies(typeof(InfrastructureRegistrar).Assembly)
+            .AddClasses(publicOnly: false)
+            .UsingRegistrationStrategy(registrationStrategy: RegistrationStrategy.Skip)
+            .AsImplementedInterfaces()
+            .WithScopedLifetime();
+        });
+
+
         return services;
     }
 }
