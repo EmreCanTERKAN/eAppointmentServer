@@ -21,7 +21,7 @@ internal sealed class JwtProvider : IJwtProvider
 
         DateTime expires = DateTime.Now.AddDays(1);
 
-        SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes("SADASDAS^'+sd^'FEWDFS"));
+        SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes("B3@rVw56LpQ!mCzXyA&1oN7TgUzR#KpDqE$4F9asdasdasdasdasdasdasdasHwJ5VsMt"));
         SigningCredentials signingCredentials = new(securityKey, SecurityAlgorithms.HmacSha512);
 
         JwtSecurityToken securityToken = new(
