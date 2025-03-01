@@ -8,6 +8,7 @@ public sealed class Patient
     public Guid Id { get; set; }
     public string FirstName { get; set; } = default!;
     public string LastName { get; set; } = default!;
+    public string IdentityNumber { get; set; } = default!;
     public string City { get; set; } = default!;
     public string Town { get; set; } = default!;
     public string FullAddress { get; set; } = default!;
