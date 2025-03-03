@@ -1,0 +1,28 @@
+﻿using eAppointment.Application.Features.Appointments.GetAllAppointments;
+using eAppointment.Application.Features.Appointments.GetAllDoctorsByDepartment;
+using eAppointment.WebAPI.Abstractions;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+
+namespace eAppointment.WebAPI.Controllers;
+
+public sealed class AppointmentsController : ApiController
+{
+    public AppointmentsController(IMediator mediator) : base(mediator)
+    {
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> GetAllDoctorsByDepartment(GetAllDoctorsByDepartmentQuery request, CancellationToken cancellationToken)
+    {
+        var response = await _mediator.Send(request, cancellationToken);
+        return StatusCode(response.StatusCode, response);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> GetAllByDoctorId(GetAllAppointmentsByDoctorIdQuery request, CancellationToken cancellationToken)
+    {
+        var response = await _mediator.Send(request, cancellationToken);
+        return StatusCode(response.StatusCode, response);
+    }
+}
