@@ -1,11 +1,12 @@
 ﻿using eAppointment.Application.Features.Auth.Login;
 using eAppointment.WebAPI.Abstractions;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eAppointment.WebAPI.Controllers;
 
-
+[AllowAnonymous]
 public sealed class AuthController : ApiController
 {
     public AuthController(IMediator mediator) : base(mediator)
