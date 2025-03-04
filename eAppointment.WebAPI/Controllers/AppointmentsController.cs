@@ -1,5 +1,7 @@
-﻿using eAppointment.Application.Features.Appointments.GetAllAppointments;
+﻿using eAppointment.Application.Features.Appointments.CreateAppointment;
+using eAppointment.Application.Features.Appointments.GetAllAppointments;
 using eAppointment.Application.Features.Appointments.GetAllDoctorsByDepartment;
+using eAppointment.Application.Features.Appointments.GetPatientByIdentityNumber;
 using eAppointment.WebAPI.Abstractions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +23,20 @@ public sealed class AppointmentsController : ApiController
 
     [HttpPost]
     public async Task<IActionResult> GetAllByDoctorId(GetAllAppointmentsByDoctorIdQuery request, CancellationToken cancellationToken)
+    {
+        var response = await _mediator.Send(request, cancellationToken);
+        return StatusCode(response.StatusCode, response);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> GetPatientByIdentityNumber(GetPatientByIdentityNumberQuery request, CancellationToken cancellationToken)
+    {
+        var response = await _mediator.Send(request, cancellationToken);
+        return StatusCode(response.StatusCode, response);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create(CreateAppointmentCommand request, CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(request, cancellationToken);
         return StatusCode(response.StatusCode, response);
