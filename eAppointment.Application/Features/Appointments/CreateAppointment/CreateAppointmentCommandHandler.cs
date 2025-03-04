@@ -13,6 +13,8 @@ internal sealed class CreateAppointmentCommandHandler(
 {
     public async Task<Result<string>> Handle(CreateAppointmentCommand request, CancellationToken cancellationToken)
     {
+        DateTime startDate = Convert.ToDateTime(request.StartDate);
+        DateTime endDate = Convert.ToDateTime(request.EndDate);
 
         Patient patient = await patientRepository.GetByExpressionAsync(p => p.IdentityNumber == request.IdentityNumber, cancellationToken);
         if (patient is null)
@@ -28,6 +30,20 @@ internal sealed class CreateAppointmentCommandHandler(
             };
 
             await patientRepository.AddAsync(patient, cancellationToken);
+        }
+
+        bool isAppointmentDateNotAvailable =
+                    await appointmentRepository
+                    .AnyAsync(p => p.DoctorId == request.DoctorId &&
+                     ((p.StartDate < endDate && p.StartDate >= startDate) || // Mevcut randevunun bitişi, diğer randevunun başlangıcıyla çakışıyor
+                     (p.EndDate > startDate && p.EndDate <= endDate) || // Mevcut randevunun başlangıcı, diğer randevunun bitişiyle çakışıyor
+                     (p.StartDate >= startDate && p.EndDate <= endDate) || // Mevcut randevu, diğer randevu içinde tamamen
+                     (p.StartDate <= startDate && p.EndDate >= endDate)), // Mevcut randevu, diğer randevuyu tamamen kapsıyor
+                     cancellationToken);
+
+        if (isAppointmentDateNotAvailable)
+        {
+            return Result<string>.Failure("Appointment date is not available");
         }
 
         Appointment appointment = new()
