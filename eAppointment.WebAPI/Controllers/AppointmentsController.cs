@@ -1,4 +1,5 @@
 ﻿using eAppointment.Application.Features.Appointments.CreateAppointment;
+using eAppointment.Application.Features.Appointments.DeleteAppointmentById;
 using eAppointment.Application.Features.Appointments.GetAllAppointments;
 using eAppointment.Application.Features.Appointments.GetAllDoctorsByDepartment;
 using eAppointment.Application.Features.Appointments.GetPatientByIdentityNumber;
@@ -37,6 +38,13 @@ public sealed class AppointmentsController : ApiController
 
     [HttpPost]
     public async Task<IActionResult> Create(CreateAppointmentCommand request, CancellationToken cancellationToken)
+    {
+        var response = await _mediator.Send(request, cancellationToken);
+        return StatusCode(response.StatusCode, response);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> DeleteById(DeleteAppointmentByIdCommand request, CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(request, cancellationToken);
         return StatusCode(response.StatusCode, response);
