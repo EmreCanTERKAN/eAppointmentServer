@@ -3,6 +3,8 @@ using eAppointment.Application.Features.Doctors.CreateDoctor;
 using eAppointment.Application.Features.Doctors.UpdateDoctor;
 using eAppointment.Application.Features.Patients.CreatePatient;
 using eAppointment.Application.Features.Patients.UpdatePatient;
+using eAppointment.Application.Features.Users.CreateUser;
+using eAppointment.Application.Features.Users.UpdateUser;
 using eAppointment.Domain.Entities;
 using eAppointment.Domain.Enums;
 
@@ -23,5 +25,8 @@ public sealed class MappingProfile : Profile
 
         CreateMap<CreatePatientCommand, Patient>();
         CreateMap<UpdatePatientCommand, Patient>();
+
+        CreateMap<CreateUserCommand, AppUser>();
+        CreateMap<UpdateUserCommand, AppUser>();
     }
 }

@@ -11,6 +11,7 @@ public static class InfrastructureRegistrar
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
+      
         services.AddDbContext<ApplicationDbContext>(opt =>
         {
             opt.UseSqlServer(configuration.GetConnectionString("SqlServer"));
